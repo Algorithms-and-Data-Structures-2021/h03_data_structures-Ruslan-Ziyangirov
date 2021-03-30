@@ -23,16 +23,16 @@ void LinkedDequeue::Enqueue(Element e) {
 
 void LinkedDequeue::EnqueueFront(Element e) {
   // TODO: напишите здесь свой код ...
-  auto *node  = new DoublyNode(e, nullptr, nullptr);
-
-    if (size_==0){
-        back_ = node;
+    if (size_ == 0){
+        back_ = new DoublyNode(e, nullptr, nullptr);
         front_ = back_;
     }
-    if (size_>0){
-        front_->next = node;
-        front_ = node;
+    if (size_ > 0){
+        auto* current_node = new DoublyNode(e, front_, nullptr);
+        front_->next = current_node;
+        front_ = current_node;
     }
+
     size_++;
 
 }
@@ -59,10 +59,9 @@ void LinkedDequeue::Dequeue() {
 }
 
 void LinkedDequeue::DequeueBack() {
-  if (size_ == 0) {
-    throw std::logic_error("cannot not dequeue from empty queue");
-  }
-  // TODO: напишите здесь свой код ...
+    if (size_ == 0) {
+        throw std::logic_error("cannot not dequeue from empty queue");
+    }
 
     auto* current_node = back_;
 
@@ -85,12 +84,11 @@ void LinkedDequeue::Clear() {
   // TODO: напишите здесь свой код ...
 
     while (size_ > 0){
-        Dequeue();
+        DequeueBack();
     }
-    delete front_;
-    delete back_;
     front_ = nullptr;
     back_ = nullptr;
+
 }
 
 // === РЕАЛИЗОВАНО ===
