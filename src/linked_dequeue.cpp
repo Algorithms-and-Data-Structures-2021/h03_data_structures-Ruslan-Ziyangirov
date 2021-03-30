@@ -6,19 +6,17 @@ namespace itis {
 
 void LinkedDequeue::Enqueue(Element e) {
   // TODO: напишите здесь свой код ...
-  DoublyNode *node = new DoublyNode(e, nullptr, nullptr);
+    if (size_ == 0){
+        back_ = new DoublyNode(e, nullptr, nullptr);
+        front_ = back_;
+    }
+    if (size_ > 0){
+        auto* current_node = new DoublyNode(e, nullptr, back_);
+        back_->previous = current_node;
+        back_ = current_node;
+    }
 
-  if(size_==0){
-      front_ = node;
-      back_ = node;
-  }
-  if(size_>0){
-      back_->previous = node;
-      back_ = node;
-
-  }
-
-  size_++;
+    size_++;
 }
 
 void LinkedDequeue::EnqueueFront(Element e) {
@@ -38,45 +36,42 @@ void LinkedDequeue::EnqueueFront(Element e) {
 }
 
 void LinkedDequeue::Dequeue() {
-  if (size_ == 0) {
-    throw std::logic_error("cannot not dequeue from empty queue");
-  }
+    if (size_ == 0) {
+        throw std::logic_error("cannot not dequeue from empty queue");
+    }
 
-  // TODO: напишите здесь свой код ...
+    auto* current_node = front_;
 
-    if (size_ == 1){
-        delete front_;
+    if (size_ == 1) {
+        delete current_node;
         front_ = nullptr;
         back_ = nullptr;
+        size_--;
+        return;
     }
-    if (size_ >1){
-        DoublyNode *current = front_;
-        front_ = front_->previous;
-        delete current;
-    }
-    size_ --;
+
+    front_->previous->next = nullptr;
+    front_ = front_->previous;
+    delete current_node;
+    size_--;
+
 
 }
 
 void LinkedDequeue::DequeueBack() {
     if (size_ == 0) {
         throw std::logic_error("cannot not dequeue from empty queue");
-    }
-
-    auto* current_node = back_;
-
-    if (size_ == 1){
-        delete current_node;
-        back_ = nullptr;
+    } else if (size_==1){
+        delete back_;
         front_ = nullptr;
-        size_--;
-        return;
+        back_ = nullptr;
+    } else{
+        DoublyNode* current_node = back_;
+        back_ = back_->next;
+        delete current_node;
     }
-
-    back_->next->previous = nullptr;
-    back_ = back_->next;
-    delete current_node;
     size_--;
+
 
 }
 
