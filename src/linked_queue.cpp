@@ -9,11 +9,11 @@ void LinkedQueue::Enqueue(Element e) {
   auto *current_node = new SinglyNode(e, nullptr);
 
   if(size_==0){
-      front_ = current_node;
       back_ = current_node;
+      front_ = back_;
   }
-  if(size_>=1){
-      current_node->next = back_;
+  if(size_>0){
+      back_->next = current_node;
       back_ = current_node;
   }
   size_++;

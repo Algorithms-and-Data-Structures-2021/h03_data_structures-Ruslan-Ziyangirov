@@ -23,11 +23,11 @@ void LinkedDequeue::Enqueue(Element e) {
 
 void LinkedDequeue::EnqueueFront(Element e) {
   // TODO: напишите здесь свой код ...
-  DoublyNode *node  = new DoublyNode(e, nullptr, nullptr);
+  auto *node  = new DoublyNode(e, nullptr, nullptr);
 
     if (size_==0){
-        front_ = node;
         back_ = node;
+        front_ = back_;
     }
     if (size_>0){
         front_->next = node;
@@ -64,15 +64,20 @@ void LinkedDequeue::DequeueBack() {
   }
   // TODO: напишите здесь свой код ...
 
-    DoublyNode *delete_node=back_;
-    back_=back_->next;
-    if (back_== nullptr){
-        front_= nullptr;
-    } else{
-        back_->previous= nullptr;
+    auto* current_node = back_;
+
+    if (size_ == 1){
+        delete current_node;
+        back_ = nullptr;
+        front_ = nullptr;
+        size_--;
+        return;
     }
+
+    back_->next->previous = nullptr;
+    back_ = back_->next;
+    delete current_node;
     size_--;
-    delete delete_node;
 
 }
 
